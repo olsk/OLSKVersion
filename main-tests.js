@@ -39,3 +39,35 @@ describe('OLSKVersionAdd', function test_OLSKVersionAdd() {
 	});
 	
 });
+
+describe('OLSKVersionClear', function test_OLSKVersionClear() {
+
+	it('throws if param1 not object', function () {
+		throws(function () {
+			mod.OLSKVersionClear(null, Math.random().toString(), Math.random());
+		}, /OLSKErrorInputNotValid/);
+	});
+	
+	it('throws if param2 not string', function () {
+		throws(function () {
+			mod.OLSKVersionClear({}, null, Math.random());
+		}, /OLSKErrorInputNotValid/);
+	});
+	
+	it('returns param1', function () {
+		const item = {
+			[Math.random().toString()]: Math.random().toString(),
+		};
+
+		deepEqual(mod.OLSKVersionClear(item, Math.random().toString()), item);
+	});
+	
+	it('clears array at param2 if exists', function () {
+		const item = Math.random().toString();
+
+		deepEqual(mod.OLSKVersionClear({
+			[item]: [item]
+		}, item), {});
+	});
+	
+});
