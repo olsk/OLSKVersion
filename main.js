@@ -1,16 +1,23 @@
 const mod = {
 
-	OLSKVersionAdd (param1, param2, param3) {
-		if (typeof param1 !== 'object' || param1 === null) {
+	OLSKVersionAdd (params) {
+		if (typeof params !== 'object' || params === null) {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+		if (typeof params.ParamMap !== 'object' || params.ParamMap === null) {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		if (typeof param2 !== 'string') {
+		if (typeof params.ParamKey !== 'string') {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
-		return Object.assign(param1, {
-			[param2]: (param1[param2] || []).concat(param3),
+		if (typeof params.ParamData === 'undefined') {
+			throw new Error('OLSKErrorInputNotValid');
+		}
+
+		return Object.assign(params.ParamMap, {
+			[params.ParamKey]: (params.ParamMap[params.ParamKey] || []).concat(params.ParamData),
 		});
 	},
 
