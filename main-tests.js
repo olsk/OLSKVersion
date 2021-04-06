@@ -52,25 +52,51 @@ describe('OLSKVersionAdd', function test_OLSKVersionAdd() {
 		}), ParamMap);
 	});
 	
+	it('throws if ParamLimit not number', function () {
+		throws(function () {
+			_OLSKVersionAdd({
+				ParamLimit: null,
+			});
+		}, /OLSKErrorInputNotValid/);
+	});
+	
 	it('creates array at ParamKey if none', function () {
 		const ParamKey = Math.random().toString();
+		const ParamData = Math.random().toString();
 
 		deepEqual(_OLSKVersionAdd({
 			ParamKey,
-			ParamData: ParamKey,
-		})[ParamKey], [ParamKey]);
+			ParamData,
+		})[ParamKey], [ParamData]);
 	});
 	
 	it('adds ParamData to array at ParamKey if exists', function () {
 		const ParamKey = Math.random().toString();
+		const ParamData = Math.random().toString();
 
 		deepEqual(_OLSKVersionAdd({
 			ParamMap: {
-				[ParamKey]: [ParamKey],
+				[ParamKey]: [ParamData],
 			},
 			ParamKey,
-			ParamData: ParamKey,
-		})[ParamKey], [ParamKey, ParamKey]);
+			ParamData,
+		})[ParamKey], [ParamData, ParamData]);
+	});
+	
+	it('keeps ParamLimit items', function () {
+		const ParamLimit = uRandomInt();
+		const array = Array.from(Array(ParamLimit));
+		const ParamKey = Math.random().toString();
+		const ParamData = Math.random().toString();
+
+		deepEqual(_OLSKVersionAdd({
+			ParamMap: {
+				[ParamKey]: array,
+			},
+			ParamKey,
+			ParamLimit,
+			ParamData,
+		})[ParamKey], array.concat(ParamData).slice(-ParamLimit));
 	});
 	
 });

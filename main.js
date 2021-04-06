@@ -16,8 +16,14 @@ const mod = {
 			throw new Error('OLSKErrorInputNotValid');
 		}
 
+		if (typeof params.ParamLimit !== 'undefined') {
+			if (typeof params.ParamLimit !== 'number') {
+				throw new Error('OLSKErrorInputNotValid');
+			}
+		}
+
 		return Object.assign(params.ParamMap, {
-			[params.ParamKey]: (params.ParamMap[params.ParamKey] || []).concat(params.ParamData),
+			[params.ParamKey]: (params.ParamMap[params.ParamKey] || []).concat(params.ParamData).slice(-(params.ParamLimit || Infinity)),
 		});
 	},
 
