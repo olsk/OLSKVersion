@@ -99,6 +99,21 @@ describe('OLSKVersionAdd', function test_OLSKVersionAdd() {
 		})[ParamKey], array.concat(ParamData).slice(-ParamLimit));
 	});
 	
+	it('creates copy if ParamData object', function () {
+		const ParamKey = Math.random().toString();
+		const item = {
+			[Math.random().toString()]: Math.random().toString(),
+		};
+
+		require('assert').notStrictEqual(_OLSKVersionAdd({
+			ParamMap: {
+				[ParamKey]: [item],
+			},
+			ParamKey,
+			ParamData: item,
+		})[ParamKey].slice(-1).pop(), item);
+	});
+	
 });
 
 describe('OLSKVersionClear', function test_OLSKVersionClear() {

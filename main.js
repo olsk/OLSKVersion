@@ -22,6 +22,10 @@ const mod = {
 			}
 		}
 
+		if (typeof params.ParamData === 'object') {
+			params.ParamData = JSON.parse(JSON.stringify(params.ParamData));
+		}
+
 		return Object.assign(params.ParamMap, {
 			[params.ParamKey]: (params.ParamMap[params.ParamKey] || []).concat(params.ParamData).slice(-(params.ParamLimit || Infinity)),
 		});
